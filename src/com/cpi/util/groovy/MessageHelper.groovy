@@ -3,6 +3,10 @@ package com.cpi.util.groovy
 import com.sap.gateway.ip.core.customdev.util.Message
 import com.sap.it.api.msglog.MessageLogFactory
 
+/*
+    Utility Class for CPI message Processing
+ */
+
 class MessageHelper
 {
     Message msg
