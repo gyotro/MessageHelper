@@ -1,6 +1,7 @@
 package com.cpi.util.groovy
 
 import com.sap.gateway.ip.core.customdev.util.Message
+import com.sap.it.api.msglog.MessageLog
 import com.sap.it.api.msglog.MessageLogFactory
 
 /*
@@ -10,13 +11,15 @@ import com.sap.it.api.msglog.MessageLogFactory
 class MessageHelper
 {
     Message msg
+    MessageLog messageLog
     MessageHelper(){}
     MessageHelper(Message msg)
     {
         this.msg = msg
+        this.messageLog = ((MessageLogFactory) messageLogFactory).getMessageLog(msg)
     }
 
-    MessageLogFactory logFactory
+
 
     String getHeaderValue(String headerName, String defaultValue) {
         def headerValue = this.msg.getHeaders()[headerName]
@@ -45,13 +48,15 @@ class MessageHelper
         else
             throw new RuntimeException("Header $paramValue do not exist")
     }
-
-
     void addAttachmentAsString(String logName, String content)
     {
-        def messageLog = this.logFactory.getMessageLog(this.msg)
-        if (messageLog) {
+        if (this.messageLog) {
             messageLog.addAttachmentAsString(logName, content, "text/plain")
+        }
+    }
+    void addHeaderParam(String logName, String content){
+        if (this.messageLog) {
+            messageLog.addCustomHeaderProperty(logName, content)
         }
     }
 }
