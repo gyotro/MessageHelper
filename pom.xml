@@ -19,7 +19,6 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
-
     <dependencies>
         <!-- Groovy dependency -->
         <dependency>
@@ -27,20 +26,47 @@
             <artifactId>groovy-all</artifactId>
             <version>${groovy.version}</version>
         </dependency>
-
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </testResource>
+        </testResources>
+
         <plugins>
-            <!-- Maven Compiler Plugin -->
+            <!-- Build Helper Plugin to add custom source directory -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>add-groovy-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/com/cpi/util/groovy</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- GMavenPlus Plugin for Groovy support -->
@@ -52,29 +78,38 @@
                     <execution>
                         <goals>
                             <goal>addSources</goal>
-                            <goal>addTestSources</goal>
                             <goal>generateStubs</goal>
                             <goal>compile</goal>
                             <goal>generateTestStubs</goal>
                             <goal>compileTests</goal>
-                            <goal>removeStubs</goal>
-                            <goal>removeTestStubs</goal>
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+
+                </configuration>
             </plugin>
 
+
+            <!-- Maven Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <!-- Maven Jar Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
                     <includes>
-                        <!-- Include all compiled classes -->
                         <include>**/*.class</include>
-                        <!-- Include Groovy source files if needed -->
-                        <include>**/*.groovy</include>
-                        <include>com.cpi.util.groovy/*.*</include>
                     </includes>
                 </configuration>
             </plugin>
@@ -87,5 +122,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

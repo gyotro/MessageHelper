@@ -1,23 +1,11 @@
-package com.cpi.util.groovy
-
-import com.sap.gateway.ip.core.customdev.util.Message 
-import java.io.UnsupportedEncodingException 
-import java.text.SimpleDateFormat 
-import java.util.ArrayList 
-import java.util.Calendar 
-import java.util.Collection 
-import java.util.GregorianCalendar 
-import java.util.HashMap 
-import java.util.List 
-import java.util.Map 
-import java.util.concurrent.atomic.AtomicBoolean 
+import java.text.SimpleDateFormat
+import java.util.concurrent.atomic.AtomicBoolean
 import java.util.function.BiPredicate 
 import java.util.function.Predicate
 import java.util.stream.Collectors 
 import java.util.stream.IntStream 
 
-import groovy.json.JsonSlurper 
-import java.util.HashMap 
+import groovy.json.JsonSlurper
 
 class JsonHelper
 {
