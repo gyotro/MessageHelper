@@ -1,8 +1,8 @@
-
-
 import com.sap.gateway.ip.core.customdev.util.Message
 import com.sap.it.api.msglog.MessageLog
 import com.sap.it.api.msglog.MessageLogFactory
+import javax.mail.util.ByteArrayDataSource
+import org.apache.camel.impl.DefaultAttachment
 
 /*
     Utility Class for CPI message Processing
@@ -58,5 +58,12 @@ class MessageHelper
         if (this.messageLog) {
             messageLog.addCustomHeaderProperty(logName, content)
         }
+    }
+
+    void addAttachment(String attachName, String contentBase64, String type = "application/pdf"){
+        def pdfBytes = contentBase64.decodeBase64()
+        def data = new ByteArrayDataSource(pdfBytes, type)
+        def att = new DefaultAttachment(data)
+        this.msg.addAttachmentObject(attachName, att)
     }
 }
