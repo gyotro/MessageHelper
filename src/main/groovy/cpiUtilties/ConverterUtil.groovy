@@ -63,8 +63,8 @@ class ConverterUtil {
     }
 
     static OutputStream Base64ToFile(InputStream input, OutputStream output) {
-        String sBase64In = this.inputStream2StringConverter(input);
-        byte[] bDecoded = this.convertAndDecodeBase64StringToByte(sBase64In);
+        String sBase64In = inputStream2StringConverter(input);
+        byte[] bDecoded = convertAndDecodeBase64StringToByte(sBase64In);
         try {
             output = ConvertByteToOutputStream(bDecoded, output)
         } catch (IOException e) {
@@ -117,6 +117,47 @@ class ConverterUtil {
             outputStream.flush(); // Ensure all data is written
             ((ByteArrayOutputStream) outputStream).writeTo(byteArrayOutputStream)
             return byteArrayOutputStream.toByteArray()
+        }
+    }
+    static String convertByte2Base64String(byte[] dataIn) {
+        return Base64.encoder.encodeToString(dataIn)
+    }
+    static byte[] convertAndDecodeBase64StringToByte(String sBase64String) {
+        return Base64.decoder.decode(sBase64String)
+    }
+    static String GUIDgenerate(boolean bHyphenMantain) {
+        // Se il booleano bHyphenMantain ï¿½ false il risultato conterrï¿½ i segni
+        // '-' tipici di un GUID in SAP PI, altrimenti NO
+
+        String sGUID = "";
+        UUID idOne = UUID.randomUUID()
+
+        if (bHyphenMantain)
+            sGUID = idOne.toString().toUpperCase()
+        else
+            sGUID = idOne.toString().replaceAll("-", "").toUpperCase()
+
+        return sGUID
+    }
+    static String inputStream2StringConverter(InputStream is, String encoding = "ISO-8859-1") {
+        String line = null;
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(is,
+                    encoding));
+            StringBuilder sb = new StringBuilder();
+            while ((line = br.readLine()) != null) {
+                sb.append(line)
+            }
+            br.close()
+            return sb.toString()
+        } catch (Exception e) {
+            return e.getMessage()
+        } finally {
+            try {
+                is.close()
+            } catch (Exception e) {
+                return e.getMessage()
+            }
         }
     }
 }
