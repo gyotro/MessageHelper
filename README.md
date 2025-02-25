@@ -8,7 +8,7 @@
   <br>
 - JsonHelper, which facilitates operations with Json Files  
   <br>
-- MessageHelper, which includes functions to operate with to Cloud Integration Message and MessageLog Objects
+- MessageHelper, which includes functions to operate with Cloud Integration Message and MessageLog Objects
 
 
 
