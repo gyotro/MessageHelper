@@ -68,4 +68,17 @@ class MessageHelper
         def att = new DefaultAttachment(data)
         this.msg.addAttachmentObject(attachName, att)
     }
+
+    static String addBom(String sIn){
+        List bom = [0xEF,0xBB,0xBF].toList()
+        byte[] bIn = sIn.getBytes("utf-8")
+        bom.addAll(bIn.toList())
+        byte[] total = bom.toArray()
+        return new String(total, "utf-8")
+    }
+
+    static String addCrlf(String sIn){
+        def crlf = [(byte)0x0D, (byte)0x0A].toArray() as byte[]
+        return sIn + new String(crlf)
+    }
 }
