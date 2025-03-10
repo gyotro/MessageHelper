@@ -15,10 +15,11 @@ class MessageHelper
     Message msg
     MessageLog messageLog
     MessageHelper(){}
-    MessageHelper(Message msg)
+    MessageHelper(Message msg, msgLog)
     {
         this.msg = msg
-        this.messageLog = ((MessageLogFactory) messageLogFactory).getMessageLog(msg)
+     //   this.messageLog = ((MessageLogFactory) messageLogFactory).getMessageLog(msg)
+        this.messageLog = msgLog
     }
 
 
