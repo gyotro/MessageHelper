@@ -82,4 +82,42 @@ class MessageHelper
         def crlf = [(byte)0x0D, (byte)0x0A].toArray() as byte[]
         return sIn + new String(crlf)
     }
+
+    static String JDBCResultSetToCSV(String xmlContent){
+        // Parse the XML from the String
+        def xml = new XmlSlurper().parseText(xmlContent)
+
+// Grab all the <row> elements under <select_response>
+        def rows = xml.select_response.row
+
+// Determine the full set of column names (unique child tags of any <row>)
+        def headers = rows
+                .collect { row -> row.children().collect { it.name() } }
+                .flatten()
+                .unique()
+
+// Use StringWriter to accumulate CSV in-memory
+        def writer = new StringWriter()
+        def pw = new PrintWriter(writer)
+
+// Write header line
+        pw.println(headers.join(','))
+
+// Write each row's values in header order
+        rows.each { row ->
+            def values = headers.collect { col ->
+                // Pull text or empty if missing
+                def v = row."$col"*.text().join('')
+                // CSV-escape if needed
+                if (v.contains('"') || v.contains(',')) {
+                    v = '"' + v.replaceAll('"','""') + '"'
+                }
+                return v
+            }
+            pw.println(values.join(','))
+        }
+
+        pw.flush()
+        return writer.toString()
+    }
 }
