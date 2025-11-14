@@ -57,9 +57,9 @@ class MessageHelper
             messageLog.addAttachmentAsString(logName, content, "text/plain")
         }
     }
-    void addHeaderParam(String logName, String content){
+    void addHeaderParam(String logName, Object content){
         if (this.messageLog) {
-            messageLog.addCustomHeaderProperty(logName, content)
+            messageLog.addCustomHeaderProperty(logName, content.toString())
         }
     }
 
@@ -119,5 +119,15 @@ class MessageHelper
 
         pw.flush()
         return writer.toString()
+    }
+
+    void setHeader(String headerName, Object headerValue){
+        this.msg.setHeader(headerName, headerValue)
+    }
+    void setProperty(String propertyName, Object propertyValue){
+        this.msg.setProperty(propertyName, propertyValue)
+    }
+    void setBody(Object body){
+        this.msg.setBody(body)
     }
 }
