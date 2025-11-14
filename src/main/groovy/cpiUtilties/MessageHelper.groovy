@@ -130,4 +130,22 @@ class MessageHelper
     void setBody(Object body){
         this.msg.setBody(body)
     }
+    void getPropandMPLog(String prop){
+        String sProp = getParamValue(prop, "notSet")
+        this.messageLog.addCustomHeaderProperty(prop, sProp)
+    }
+    void getHeaderandMPLog(String header){
+        String sHeader = getHeaderValue(header, "notSet")
+        this.messageLog.addCustomHeaderProperty(header, sHeader)
+    }
+    void getPropandMPLog(List<String> prop){
+        prop.each { String sProp ->
+            getPropandMPLog(sProp)
+        }
+    }
+    void getHeaderandMPLog(List<String> header){
+        header.each { String sHeader ->
+            getHeaderandMPLog(sHeader)
+        }
+    }
 }
